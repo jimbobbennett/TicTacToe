@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             xmlns:local="clr-namespace:TicTacToe" 
+             xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core" 
+             ios:Page.UseSafeArea="true"
+             x:Class="TicTacToe.TicTacToePage">
+    <ContentPage.BindingContext>
+        <local:GameViewModel/>
+    </ContentPage.BindingContext>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid RowSpacing="0" 
+              ColumnSpacing="0"
+              x:Name="GameBoard"
+              HorizontalOptions="Center"
+              VerticalOptions="Center">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="5"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="5"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="5"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="5"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid BackgroundColor="Black"
+                  Grid.Row="1"
+                  Grid.ColumnSpan="5"/>
+            <Grid BackgroundColor="Black"
+                  Grid.Row="3"
+                  Grid.ColumnSpan="5"/>
+            <Grid BackgroundColor="Black"
+                  Grid.RowSpan="5"
+                  Grid.Column="1"/>
+            <Grid BackgroundColor="Black"
+                  Grid.RowSpan="5"
+                  Grid.Column="3"/>
+
+            <Button Grid.Row="0" Grid.Column="0" BackgroundColor="LightGray"
+                    Command="{Binding MakeMoveCommand}" 
+                    CommandParameter="{x:Static local:Location.TL}"/>
+            <Button Grid.Row="0" Grid.Column="2" BackgroundColor="LightGray"/>
+            <Button Grid.Row="0" Grid.Column="4" BackgroundColor="LightGray"/>
+
+            <Button Grid.Row="2" Grid.Column="0" BackgroundColor="LightGray"/>
+            <Button Grid.Row="2" Grid.Column="2" BackgroundColor="LightGray"/>
+            <Button Grid.Row="2" Grid.Column="4" BackgroundColor="LightGray"/>
+
+            <Button Grid.Row="4" Grid.Column="0" BackgroundColor="LightGray"/>
+            <Button Grid.Row="4" Grid.Column="2" BackgroundColor="LightGray"/>
+            <Button Grid.Row="4" Grid.Column="4" BackgroundColor="LightGray"/>
+        </Grid>
+
+        <Label Grid.Row="1"
+               Text="{Binding TurnMessage}" 
+               Margin="10" 
+               HorizontalTextAlignment="Center" 
+               FontSize="Large"/>
+    </Grid>
+</ContentPage>
