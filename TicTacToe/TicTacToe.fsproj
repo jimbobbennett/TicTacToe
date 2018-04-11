@@ -4,7 +4,7 @@
     <EnableDefaultEmbeddedResourceItems>false</EnableDefaultEmbeddedResourceItems>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Game.fs" />
+    <Compile Include="Converters.fs" />
     <EmbeddedResource Include="TicTacToePage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>

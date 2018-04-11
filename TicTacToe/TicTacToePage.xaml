@@ -4,13 +4,18 @@
              xmlns:local="clr-namespace:TicTacToe" 
              xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core" 
              ios:Page.UseSafeArea="true"
-             x:Class="TicTacToe.TicTacToePage">
-    <!--ContentPage.BindingContext>
-        <local:GameViewModel/>
-    </ContentPage.BindingContext-->
+             x:Class="TicTacToe.TicTacToePage"
+             Title="TicTacToe"
+             BackgroundColor="White">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <local:InvertedBooleanConverter x:Key="invertBool"/>
+        </ResourceDictionary>
+    </ContentPage.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <Grid RowSpacing="0" 
@@ -43,35 +48,65 @@
                   Grid.Column="1"/>
             <Grid BackgroundColor="Black"
                   Grid.RowSpan="5"
-                  Grid.Column="3"/>
+                  Grid.Column="3"/> 
 
-            <Button Grid.Row="0" Grid.Column="0" BackgroundColor="LightGray"
+            <Image Grid.Row="0" Grid.Column="0" Margin="10"
+                   Source="{Binding Path=[ImageTL]}"
+                   IsVisible="{Binding Path=[CanPlayTL], Converter={StaticResource invertBool}}"/>
+            <Image Grid.Row="0" Grid.Column="2" Margin="10"
+                   Source="{Binding Path=[ImageTC]}"
+                   IsVisible="{Binding Path=[CanPlayTC], Converter={StaticResource invertBool}}"/>
+            <Image Grid.Row="0" Grid.Column="4" Margin="10"
+                   Source="{Binding Path=[ImageTR]}"
+                   IsVisible="{Binding Path=[CanPlayTR], Converter={StaticResource invertBool}}"/>
+
+            <Image Grid.Row="2" Grid.Column="0" Margin="10"
+                   Source="{Binding Path=[ImageML]}"
+                   IsVisible="{Binding Path=[CanPlayML], Converter={StaticResource invertBool}}"/>
+            <Image Grid.Row="2" Grid.Column="2" Margin="10"
+                   Source="{Binding Path=[ImageMC]}"
+                   IsVisible="{Binding Path=[CanPlayMC], Converter={StaticResource invertBool}}"/>
+            <Image Grid.Row="2" Grid.Column="4" Margin="10"
+                   Source="{Binding Path=[ImageMR]}"
+                   IsVisible="{Binding Path=[CanPlayMR], Converter={StaticResource invertBool}}"/>
+
+            <Image Grid.Row="4" Grid.Column="0" Margin="10"
+                   Source="{Binding Path=[ImageBL]}"
+                   IsVisible="{Binding Path=[CanPlayBL], Converter={StaticResource invertBool}}"/>
+            <Image Grid.Row="4" Grid.Column="2" Margin="10"
+                   Source="{Binding Path=[ImageBC]}"
+                   IsVisible="{Binding Path=[CanPlayBC], Converter={StaticResource invertBool}}"/>
+            <Image Grid.Row="4" Grid.Column="4" Margin="10"
+                   Source="{Binding Path=[ImageBR]}"
+                   IsVisible="{Binding Path=[CanPlayBR], Converter={StaticResource invertBool}}"/>
+
+            <Button Grid.Row="0" Grid.Column="0" BackgroundColor="LightBlue"
                     Command="{Binding Path=[PlayTL]}"
                     IsVisible="{Binding Path=[CanPlayTL]}"/>
-            <Button Grid.Row="0" Grid.Column="2" BackgroundColor="LightGray"
+            <Button Grid.Row="0" Grid.Column="2" BackgroundColor="LightBlue"
                     Command="{Binding Path=[PlayTC]}"
                     IsVisible="{Binding Path=[CanPlayTC]}"/>
-            <Button Grid.Row="0" Grid.Column="4" BackgroundColor="LightGray"
+            <Button Grid.Row="0" Grid.Column="4" BackgroundColor="LightBlue"
                     Command="{Binding Path=[PlayTR]}"
                     IsVisible="{Binding Path=[CanPlayTR]}"/>
 
-            <Button Grid.Row="2" Grid.Column="0" BackgroundColor="LightGray"
+            <Button Grid.Row="2" Grid.Column="0" BackgroundColor="LightBlue"
                     Command="{Binding Path=[PlayML]}"
                     IsVisible="{Binding Path=[CanPlayML]}"/>
-            <Button Grid.Row="2" Grid.Column="2" BackgroundColor="LightGray"
+            <Button Grid.Row="2" Grid.Column="2" BackgroundColor="LightBlue"
                     Command="{Binding Path=[PlayMC]}"
                     IsVisible="{Binding Path=[CanPlayMC]}"/>
-            <Button Grid.Row="2" Grid.Column="4" BackgroundColor="LightGray"
+            <Button Grid.Row="2" Grid.Column="4" BackgroundColor="LightBlue"
                     Command="{Binding Path=[PlayMR]}"
                     IsVisible="{Binding Path=[CanPlayMR]}"/>
 
-            <Button Grid.Row="4" Grid.Column="0" BackgroundColor="LightGray"
+            <Button Grid.Row="4" Grid.Column="0" BackgroundColor="LightBlue"
                     Command="{Binding Path=[PlayBL]}"
                     IsVisible="{Binding Path=[CanPlayBL]}"/>
-            <Button Grid.Row="4" Grid.Column="2" BackgroundColor="LightGray"
+            <Button Grid.Row="4" Grid.Column="2" BackgroundColor="LightBlue"
                     Command="{Binding Path=[PlayBC]}"
                     IsVisible="{Binding Path=[CanPlayBC]}"/>
-            <Button Grid.Row="4" Grid.Column="4" BackgroundColor="LightGray"
+            <Button Grid.Row="4" Grid.Column="4" BackgroundColor="LightBlue"
                     Command="{Binding Path=[PlayBR]}"
                     IsVisible="{Binding Path=[CanPlayBR]}"/>
         </Grid>
@@ -81,5 +116,11 @@
                Margin="10" 
                HorizontalTextAlignment="Center" 
                FontSize="Large"/>
+
+        <Button Grid.Row="2"
+                Text="Restart game"
+                BackgroundColor="LightBlue"
+                TextColor="Black"
+                Command="{Binding Path=[Restart]}"/>
     </Grid>
 </ContentPage>
