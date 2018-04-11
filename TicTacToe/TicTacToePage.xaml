@@ -5,9 +5,9 @@
              xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core" 
              ios:Page.UseSafeArea="true"
              x:Class="TicTacToe.TicTacToePage">
-    <ContentPage.BindingContext>
+    <!--ContentPage.BindingContext>
         <local:GameViewModel/>
-    </ContentPage.BindingContext>
+    </ContentPage.BindingContext-->
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
@@ -45,23 +45,33 @@
                   Grid.RowSpan="5"
                   Grid.Column="3"/>
 
-            <Button Grid.Row="0" Grid.Column="0" BackgroundColor="LightGray"
-                    Command="{Binding MakeMoveCommand}" 
-                    CommandParameter="{x:Static local:Location.TL}"/>
-            <Button Grid.Row="0" Grid.Column="2" BackgroundColor="LightGray"/>
-            <Button Grid.Row="0" Grid.Column="4" BackgroundColor="LightGray"/>
+            <local:CellControl Grid.Row="0" Grid.Column="0" BackgroundColor="LightGray"
+                               Command="{Binding Path=[PlayTL]}"
+                               GameCell="{Binding Parh=[CellTL]}"/>
+            <local:CellControl Grid.Row="0" Grid.Column="2" BackgroundColor="LightGray"
+                               Command="{Binding Path=[PlayTC]}"
+                               GameCell="{Binding Parh=[CellTC]}"/>
+            <local:CellControl Grid.Row="0" Grid.Column="4" BackgroundColor="LightGray"
+                               Command="{Binding Path=[PlayTR]}"
+                               GameCell="{Binding Parh=[CellTR]}"/>
 
-            <Button Grid.Row="2" Grid.Column="0" BackgroundColor="LightGray"/>
-            <Button Grid.Row="2" Grid.Column="2" BackgroundColor="LightGray"/>
-            <Button Grid.Row="2" Grid.Column="4" BackgroundColor="LightGray"/>
+            <Button Grid.Row="2" Grid.Column="0" BackgroundColor="LightGray"
+                    Command="{Binding Path=[PlayML]}"/>
+            <Button Grid.Row="2" Grid.Column="2" BackgroundColor="LightGray"
+                    Command="{Binding Path=[PlayMC]}"/>
+            <Button Grid.Row="2" Grid.Column="4" BackgroundColor="LightGray"
+                    Command="{Binding Path=[PlayMR]}"/>
 
-            <Button Grid.Row="4" Grid.Column="0" BackgroundColor="LightGray"/>
-            <Button Grid.Row="4" Grid.Column="2" BackgroundColor="LightGray"/>
-            <Button Grid.Row="4" Grid.Column="4" BackgroundColor="LightGray"/>
+            <Button Grid.Row="4" Grid.Column="0" BackgroundColor="LightGray"
+                    Command="{Binding Path=[PlayBL]}"/>
+            <Button Grid.Row="4" Grid.Column="2" BackgroundColor="LightGray"
+                    Command="{Binding Path=[PlayBC]}"/>
+            <Button Grid.Row="4" Grid.Column="4" BackgroundColor="LightGray"
+                    Command="{Binding Path=[PlayBR]}"/>
         </Grid>
 
         <Label Grid.Row="1"
-               Text="{Binding TurnMessage}" 
+               Text="{Binding Path=[TurnMessage]}" 
                Margin="10" 
                HorizontalTextAlignment="Center" 
                FontSize="Large"/>
