@@ -23,7 +23,7 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Elmish.XamarinForms">
-      <HintPath>..\..\Elmish.XamarinForms\build_output\Elmish.XamarinForms.dll</HintPath>
+      <HintPath>..\Elmish\Elmish.XamarinForms.dll</HintPath>
     </Reference>
   </ItemGroup>
 </Project>
