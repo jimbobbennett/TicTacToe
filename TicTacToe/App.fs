@@ -87,9 +87,15 @@ type App() =
                 "PlayBL" |> Binding.msg PlayBL
                 "PlayBC" |> Binding.msg PlayBC
                 "PlayBR" |> Binding.msg PlayBR
-                "CellTL" |> Binding.oneWay (fun m -> m.Cells.TopLeft)
-                "CellTC" |> Binding.oneWay (fun m -> m.Cells.TopCenter)
-                "CellTR" |> Binding.oneWay (fun m -> m.Cells.TopRight)
+                "CanPlayTL" |> Binding.oneWay (fun m -> match m.Cells.TopLeft with | Empty -> true | Full _ -> false )
+                "CanPlayTC" |> Binding.oneWay (fun m -> match m.Cells.TopCenter with | Empty -> true | Full _ -> false )
+                "CanPlayTR" |> Binding.oneWay (fun m -> match m.Cells.TopRight with | Empty -> true | Full _ -> false )
+                "CanPlayML" |> Binding.oneWay (fun m -> match m.Cells.MiddleLeft with | Empty -> true | Full _ -> false )
+                "CanPlayMC" |> Binding.oneWay (fun m -> match m.Cells.MiddleCenter with | Empty -> true | Full _ -> false )
+                "CanPlayMR" |> Binding.oneWay (fun m -> match m.Cells.MiddleRight with | Empty -> true | Full _ -> false )
+                "CanPlayBL" |> Binding.oneWay (fun m -> match m.Cells.BottomLeft with | Empty -> true | Full _ -> false )
+                "CanPlayBC" |> Binding.oneWay (fun m -> match m.Cells.BottomCenter with | Empty -> true | Full _ -> false )
+                "CanPlayBR" |> Binding.oneWay (fun m -> match m.Cells.BottomRight with | Empty -> true | Full _ -> false )
             ]
 
     do

@@ -5,8 +5,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Game.fs" />
-    <Compile Include="GameViewModel.fs" />
-    <Compile Include="CellControl.fs" />
     <EmbeddedResource Include="TicTacToePage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>

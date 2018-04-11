@@ -45,29 +45,35 @@
                   Grid.RowSpan="5"
                   Grid.Column="3"/>
 
-            <local:CellControl Grid.Row="0" Grid.Column="0" BackgroundColor="LightGray"
-                               Command="{Binding Path=[PlayTL]}"
-                               GameCell="{Binding Parh=[CellTL]}"/>
-            <local:CellControl Grid.Row="0" Grid.Column="2" BackgroundColor="LightGray"
-                               Command="{Binding Path=[PlayTC]}"
-                               GameCell="{Binding Parh=[CellTC]}"/>
-            <local:CellControl Grid.Row="0" Grid.Column="4" BackgroundColor="LightGray"
-                               Command="{Binding Path=[PlayTR]}"
-                               GameCell="{Binding Parh=[CellTR]}"/>
+            <Button Grid.Row="0" Grid.Column="0" BackgroundColor="LightGray"
+                    Command="{Binding Path=[PlayTL]}"
+                    IsVisible="{Binding Path=[CanPlayTL]}"/>
+            <Button Grid.Row="0" Grid.Column="2" BackgroundColor="LightGray"
+                    Command="{Binding Path=[PlayTC]}"
+                    IsVisible="{Binding Path=[CanPlayTC]}"/>
+            <Button Grid.Row="0" Grid.Column="4" BackgroundColor="LightGray"
+                    Command="{Binding Path=[PlayTR]}"
+                    IsVisible="{Binding Path=[CanPlayTR]}"/>
 
             <Button Grid.Row="2" Grid.Column="0" BackgroundColor="LightGray"
-                    Command="{Binding Path=[PlayML]}"/>
+                    Command="{Binding Path=[PlayML]}"
+                    IsVisible="{Binding Path=[CanPlayML]}"/>
             <Button Grid.Row="2" Grid.Column="2" BackgroundColor="LightGray"
-                    Command="{Binding Path=[PlayMC]}"/>
+                    Command="{Binding Path=[PlayMC]}"
+                    IsVisible="{Binding Path=[CanPlayMC]}"/>
             <Button Grid.Row="2" Grid.Column="4" BackgroundColor="LightGray"
-                    Command="{Binding Path=[PlayMR]}"/>
+                    Command="{Binding Path=[PlayMR]}"
+                    IsVisible="{Binding Path=[CanPlayMR]}"/>
 
             <Button Grid.Row="4" Grid.Column="0" BackgroundColor="LightGray"
-                    Command="{Binding Path=[PlayBL]}"/>
+                    Command="{Binding Path=[PlayBL]}"
+                    IsVisible="{Binding Path=[CanPlayBL]}"/>
             <Button Grid.Row="4" Grid.Column="2" BackgroundColor="LightGray"
-                    Command="{Binding Path=[PlayBC]}"/>
+                    Command="{Binding Path=[PlayBC]}"
+                    IsVisible="{Binding Path=[CanPlayBC]}"/>
             <Button Grid.Row="4" Grid.Column="4" BackgroundColor="LightGray"
-                    Command="{Binding Path=[PlayBR]}"/>
+                    Command="{Binding Path=[PlayBR]}"
+                    IsVisible="{Binding Path=[CanPlayBR]}"/>
         </Grid>
 
         <Label Grid.Row="1"
