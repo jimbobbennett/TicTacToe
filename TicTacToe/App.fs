@@ -170,5 +170,6 @@ type App() =
 
         let navPage = new NavigationPage(page)
         navPage.BarBackgroundColor <- Color.LightBlue
+        navPage.BarTextColor <- Color.Black
         base.MainPage <- navPage
 
