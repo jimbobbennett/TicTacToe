@@ -133,10 +133,13 @@
     <Folder Include="Resources\values\" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.fs" />
+    <None Include="Properties\AndroidManifest.xml" />
+    <Compile Include="MainActivity.fs" />
+    <AndroidResource Include="Resources\values\styles.xml" />
     <AndroidResource Include="Resources\drawable-xxhdpi\Nought.png" />
     <AndroidResource Include="Resources\drawable-xxhdpi\Cross.png" />
     <AndroidResource Include="Resources\drawable-xxhdpi\icon.png" />
-    <Compile Include="MainActivity.fs" />
     <None Include="Resources\AboutResources.txt" />
     <AndroidResource Include="Resources\drawable\icon.png" />
     <AndroidResource Include="Resources\drawable\Nought.png" />
@@ -147,8 +150,8 @@
     <AndroidResource Include="Resources\drawable-xhdpi\icon.png" />
     <AndroidResource Include="Resources\drawable-xhdpi\Cross.png" />
     <AndroidResource Include="Resources\drawable-xhdpi\Nought.png" />
-    <Compile Include="Properties\AssemblyInfo.fs" />
-    <None Include="Properties\AndroidManifest.xml" />
+    <AndroidResource Include="Resources\layout\Tabbar.axml" />
+    <AndroidResource Include="Resources\layout\Toolbar.axml" />
     <None Include="Assets\AboutAssets.txt" />
     <None Include="packages.config" />
     <ProjectReference Include="..\TicTacToe\TicTacToe.fsproj">

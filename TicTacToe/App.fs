@@ -73,15 +73,13 @@ type App() =
         ]
 
     let getLineWinner l =
-        if l.First = Full(X) && l.Second = Full(X) && l.Third = Full(X) then
-            XWins
-        elif l.First = Full(O) && l.Second = Full(O) && l.Third = Full(O) then
-            OWins
-        else
-            StillPlaying
+        match l.First, l.Second, l.Third with
+        | Full(X), Full(X), Full(X) -> XWins
+        | Full(O), Full(O), Full(O) -> OWins
+        | _ -> StillPlaying
                     
     let getGameResult m =
-        let winLines = getWinLines m.Cells |> Seq.map (fun l -> getLineWinner l)
+        let winLines = getWinLines m.Cells |> Seq.map getLineWinner
         let x = winLines |> Seq.tryFind (fun r -> r = XWins)
         let o = winLines |> Seq.tryFind (fun r -> r = OWins)
 
