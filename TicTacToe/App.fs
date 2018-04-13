@@ -62,7 +62,7 @@ module App =
     /// Check if there are any more moves available in the game
     let anyMoreMoves m = m.Board |> Map.exists (fun _ c -> c = Empty)
     
-    let getWinLines () =
+    let lines =
         [
             // rows
             for row in 0 .. 2 do yield [(row,0); (row,1); (row,2)]
@@ -74,14 +74,18 @@ module App =
         ]
 
     /// Determine if a line is a winning line.
-    let getLineWinner (cells: Board) line =
-        if line |> List.forall (fun p -> match cells.[p] with Full X -> true | _ -> false) then  Some X
-        elif line |> List.forall (fun p -> match cells.[p] with Full O -> true | _ -> false) then  Some O
+    let getLine (board: Board) line =
+        line |> List.map (fun p -> board.[p])
+
+    /// Determine if a line is a winning line.
+    let getLineWinner line =
+        if line |> List.forall (function Full X -> true | _ -> false) then Some X
+        elif line |> List.forall (function Full O -> true | _ -> false) then Some O
         else None
 
     /// Determine the game result, if any.
     let getGameResult model =
-        match getWinLines () |> Seq.tryPick (getLineWinner model.Board) with
+        match lines |> Seq.tryPick (getLine model.Board >> getLineWinner) with
         | Some p -> Win p
         | _ -> 
            if anyMoreMoves model then StillPlaying
@@ -98,12 +102,16 @@ module App =
     let update gameOver msg model =
         let newModel = 
             match msg with
-            | Play pos -> { model with Board = model.Board.Add(pos, Full model.NextUp); NextUp = model.NextUp.Swap }
-            | Restart -> init()
+            | Play pos -> 
+                { model with Board = model.Board.Add(pos, Full model.NextUp)
+                             NextUp = model.NextUp.Swap }
+            | Restart -> 
+                init()
 
         // Make an announcement in the middle of the game. 
         let result = getGameResult newModel
-        if result <> StillPlaying then gameOver (getMessage newModel)
+        if result <> StillPlaying then 
+            gameOver (getMessage newModel)
 
         // Return the new model.
         newModel
