@@ -19,8 +19,7 @@ type GameCell =
 /// Represents the result of a game
 type GameResult = 
     | StillPlaying 
-    | XWins 
-    | OWins 
+    | Win of Player
     | Draw
 
 /// Represents a position on the board
@@ -76,34 +75,23 @@ module App =
 
     /// Determine if a line is a winning line.
     let getLineWinner (cells: Board) line =
-        if line |> List.forall (fun p -> match cells.[p] with Full X -> true | _ -> false) then  XWins
-        elif line |> List.forall (fun p -> match cells.[p] with Full O -> true | _ -> false) then  OWins
-        else StillPlaying
+        if line |> List.forall (fun p -> match cells.[p] with Full X -> true | _ -> false) then  Some X
+        elif line |> List.forall (fun p -> match cells.[p] with Full O -> true | _ -> false) then  Some O
+        else None
 
     /// Determine the game result, if any.
     let getGameResult model =
-        let winLines = getWinLines () |> Seq.map (getLineWinner model.Board)
-
-        let xWins = winLines |> Seq.tryFind (fun r -> r = XWins)
-        match xWins with
-        | Some p -> p
+        match getWinLines () |> Seq.tryPick (getLineWinner model.Board) with
+        | Some p -> Win p
         | _ -> 
-        let oWins = winLines |> Seq.tryFind (fun r -> r = OWins)
-        match oWins with         
-        | Some p -> p 
-        | _ -> 
-
-        match anyMoreMoves model with
-        | true -> StillPlaying
-        | false -> Draw
-
+           if anyMoreMoves model then StillPlaying
+           else Draw
 
     /// Get a message to show the current game result
     let getMessage model = 
         match getGameResult model with 
         | StillPlaying -> sprintf "%O's turn" model.NextUp
-        | XWins -> "X wins!"
-        | OWins -> "O Wins!"
+        | Win p -> sprintf "%O wins!" p
         | Draw -> "It is a draw!"
 
     /// The 'update' function to update the model
@@ -128,19 +116,11 @@ module App =
         | O -> "Nought"
 
     /// A helper to get the suffix used in the Xaml for a position on the board.
-    let uiText (row,col) = 
-        (match row with 0 -> "T" | 1 -> "M" | 2 -> "B" | _ -> failwith "huh?") + 
-        (match col with 0 -> "L" | 1 -> "C" | 2 -> "R" | _ -> failwith "huh?")
+    let uiText (row,col) = sprintf "%d%d" row col
 
     /// A condition used in the 'view' function to check if we can play in a cell.
     /// The visual contents of a cell depends on this condition.
-    let canPlay model cell =
-         match cell with 
-         | Full _ -> false
-         | Empty -> 
-         match getGameResult model with
-         | StillPlaying -> true
-         | _ -> false
+    let canPlay model cell = (cell = Empty) && (getGameResult model = StillPlaying)
 
     /// The 'view' function giving the Xaml bindings from the model to the view
     let view () =
