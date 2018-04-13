@@ -51,64 +51,64 @@
                   Grid.Column="3"/> 
 
             <Image Grid.Row="0" Grid.Column="0" Margin="10"
-                   Source="{Binding Path=[ImageTL]}"
-                   IsVisible="{Binding Path=[CanPlayTL], Converter={StaticResource invertBool}}"/>
+                   Source="{Binding Path=[Image00]}"
+                   IsVisible="{Binding Path=[CanPlay00], Converter={StaticResource invertBool}}"/>
             <Image Grid.Row="0" Grid.Column="2" Margin="10"
-                   Source="{Binding Path=[ImageTC]}"
-                   IsVisible="{Binding Path=[CanPlayTC], Converter={StaticResource invertBool}}"/>
+                   Source="{Binding Path=[Image01]}"
+                   IsVisible="{Binding Path=[CanPlay01], Converter={StaticResource invertBool}}"/>
             <Image Grid.Row="0" Grid.Column="4" Margin="10"
-                   Source="{Binding Path=[ImageTR]}"
-                   IsVisible="{Binding Path=[CanPlayTR], Converter={StaticResource invertBool}}"/>
+                   Source="{Binding Path=[Image02]}"
+                   IsVisible="{Binding Path=[CanPlay02], Converter={StaticResource invertBool}}"/>
 
             <Image Grid.Row="2" Grid.Column="0" Margin="10"
-                   Source="{Binding Path=[ImageML]}"
-                   IsVisible="{Binding Path=[CanPlayML], Converter={StaticResource invertBool}}"/>
+                   Source="{Binding Path=[Image10]}"
+                   IsVisible="{Binding Path=[CanPlay10], Converter={StaticResource invertBool}}"/>
             <Image Grid.Row="2" Grid.Column="2" Margin="10"
-                   Source="{Binding Path=[ImageMC]}"
-                   IsVisible="{Binding Path=[CanPlayMC], Converter={StaticResource invertBool}}"/>
+                   Source="{Binding Path=[Image11]}"
+                   IsVisible="{Binding Path=[CanPlay11], Converter={StaticResource invertBool}}"/>
             <Image Grid.Row="2" Grid.Column="4" Margin="10"
-                   Source="{Binding Path=[ImageMR]}"
-                   IsVisible="{Binding Path=[CanPlayMR], Converter={StaticResource invertBool}}"/>
+                   Source="{Binding Path=[Image12]}"
+                   IsVisible="{Binding Path=[CanPlay12], Converter={StaticResource invertBool}}"/>
 
             <Image Grid.Row="4" Grid.Column="0" Margin="10"
-                   Source="{Binding Path=[ImageBL]}"
-                   IsVisible="{Binding Path=[CanPlayBL], Converter={StaticResource invertBool}}"/>
+                   Source="{Binding Path=[Image20]}"
+                   IsVisible="{Binding Path=[CanPlay20], Converter={StaticResource invertBool}}"/>
             <Image Grid.Row="4" Grid.Column="2" Margin="10"
-                   Source="{Binding Path=[ImageBC]}"
-                   IsVisible="{Binding Path=[CanPlayBC], Converter={StaticResource invertBool}}"/>
+                   Source="{Binding Path=[Image21]}"
+                   IsVisible="{Binding Path=[CanPlay21], Converter={StaticResource invertBool}}"/>
             <Image Grid.Row="4" Grid.Column="4" Margin="10"
-                   Source="{Binding Path=[ImageBR]}"
-                   IsVisible="{Binding Path=[CanPlayBR], Converter={StaticResource invertBool}}"/>
+                   Source="{Binding Path=[Image22]}"
+                   IsVisible="{Binding Path=[CanPlay22], Converter={StaticResource invertBool}}"/>
 
             <Button Grid.Row="0" Grid.Column="0" BackgroundColor="LightBlue"
-                    Command="{Binding Path=[PlayTL]}"
-                    IsVisible="{Binding Path=[CanPlayTL]}"/>
+                    Command="{Binding Path=[Play00]}"
+                    IsVisible="{Binding Path=[CanPlay00]}"/>
             <Button Grid.Row="0" Grid.Column="2" BackgroundColor="LightBlue"
-                    Command="{Binding Path=[PlayTC]}"
-                    IsVisible="{Binding Path=[CanPlayTC]}"/>
+                    Command="{Binding Path=[Play01]}"
+                    IsVisible="{Binding Path=[CanPlay01]}"/>
             <Button Grid.Row="0" Grid.Column="4" BackgroundColor="LightBlue"
-                    Command="{Binding Path=[PlayTR]}"
-                    IsVisible="{Binding Path=[CanPlayTR]}"/>
+                    Command="{Binding Path=[Play02]}"
+                    IsVisible="{Binding Path=[CanPlay02]}"/>
 
             <Button Grid.Row="2" Grid.Column="0" BackgroundColor="LightBlue"
-                    Command="{Binding Path=[PlayML]}"
-                    IsVisible="{Binding Path=[CanPlayML]}"/>
+                    Command="{Binding Path=[Play10]}"
+                    IsVisible="{Binding Path=[CanPlay10]}"/>
             <Button Grid.Row="2" Grid.Column="2" BackgroundColor="LightBlue"
-                    Command="{Binding Path=[PlayMC]}"
-                    IsVisible="{Binding Path=[CanPlayMC]}"/>
+                    Command="{Binding Path=[Play11]}"
+                    IsVisible="{Binding Path=[CanPlay11]}"/>
             <Button Grid.Row="2" Grid.Column="4" BackgroundColor="LightBlue"
-                    Command="{Binding Path=[PlayMR]}"
-                    IsVisible="{Binding Path=[CanPlayMR]}"/>
+                    Command="{Binding Path=[Play12]}"
+                    IsVisible="{Binding Path=[CanPlay12]}"/>
 
             <Button Grid.Row="4" Grid.Column="0" BackgroundColor="LightBlue"
-                    Command="{Binding Path=[PlayBL]}"
-                    IsVisible="{Binding Path=[CanPlayBL]}"/>
+                    Command="{Binding Path=[Play20]}"
+                    IsVisible="{Binding Path=[CanPlay20]}"/>
             <Button Grid.Row="4" Grid.Column="2" BackgroundColor="LightBlue"
-                    Command="{Binding Path=[PlayBC]}"
-                    IsVisible="{Binding Path=[CanPlayBC]}"/>
+                    Command="{Binding Path=[Play21]}"
+                    IsVisible="{Binding Path=[CanPlay21]}"/>
             <Button Grid.Row="4" Grid.Column="4" BackgroundColor="LightBlue"
-                    Command="{Binding Path=[PlayBR]}"
-                    IsVisible="{Binding Path=[CanPlayBR]}"/>
+                    Command="{Binding Path=[Play22]}"
+                    IsVisible="{Binding Path=[CanPlay22]}"/>
         </Grid>
 
         <Label Grid.Row="1"

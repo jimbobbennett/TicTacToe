@@ -19,44 +19,22 @@ type GameCell =
 /// Represents the result of a game
 type GameResult = 
     | StillPlaying 
-    | XWins 
-    | OWins 
+    | Win of Player
     | Draw
+
+/// Represents a position on the board
+type Pos = int * int
 
 /// Represents an update to the game
 type Msg =
-    | PlayTL
-    | PlayTC
-    | PlayTR
-    | PlayML
-    | PlayMC
-    | PlayMR
-    | PlayBL
-    | PlayBC
-    | PlayBR
+    | Play of Pos
     | Restart
 
 /// Represents the state of the game board
-type Board = 
-    { 
-      TopLeft: GameCell
-      TopCenter: GameCell
-      TopRight: GameCell
-      MiddleLeft: GameCell
-      MiddleCenter: GameCell
-      MiddleRight: GameCell
-      BottomLeft: GameCell
-      BottomCenter: GameCell
-      BottomRight: GameCell
-    }
+type Board = Map<Pos, GameCell>
 
 /// Represents the elements of a possibly-winning row
-type Row = 
-    { 
-      First: GameCell
-      Second: GameCell
-      Third: GameCell 
-    }
+type Row = GameCell list
 
 /// Represents the state of the game
 type Model =
@@ -69,88 +47,71 @@ type Model =
 /// independent model to facilitate unit testing.
 module App = 
 
+    let positions = 
+        [ for x in 0 .. 2 do 
+            for y in 0 .. 2 do 
+               yield (x, y) ]
+
     let initialBoard = 
-        { TopLeft = Empty; TopCenter = Empty; TopRight = Empty
-          MiddleLeft = Empty; MiddleCenter = Empty; MiddleRight = Empty
-          BottomLeft = Empty; BottomCenter = Empty; BottomRight = Empty }
+        Map.ofList [ for p in positions -> p, Empty ]
 
     let init () = 
         { NextUp = X
           Board = initialBoard }
 
     /// Check if there are any more moves available in the game
-    let anyMoreMoves board = 
-        board.TopLeft.CanPlay || board.TopCenter.CanPlay || board.TopRight.CanPlay ||
-        board.MiddleLeft.CanPlay || board.MiddleCenter.CanPlay || board.MiddleRight.CanPlay ||
-        board.BottomLeft.CanPlay || board.BottomCenter.CanPlay || board.BottomRight.CanPlay
+    let anyMoreMoves m = m.Board |> Map.exists (fun _ c -> c = Empty)
     
-    let getWinLines m =
-        [ // rows
-          { First = m.TopLeft; Second = m.TopCenter; Third = m.TopRight }
-          { First = m.MiddleLeft; Second = m.MiddleCenter; Third = m.MiddleRight }
-          { First = m.BottomLeft; Second = m.BottomCenter; Third = m.BottomRight }
-
-          // columns
-          { First = m.TopLeft; Second = m.MiddleLeft; Third = m.BottomLeft }
-          { First = m.TopCenter; Second = m.MiddleCenter; Third = m.BottomCenter }
-          { First = m.TopRight; Second = m.MiddleRight; Third = m.BottomRight }
-
-          // diagonals
-          { First = m.TopLeft; Second = m.MiddleCenter; Third = m.BottomRight }
-          { First = m.TopRight; Second = m.MiddleCenter; Third = m.BottomLeft }
+    let lines =
+        [
+            // rows
+            for row in 0 .. 2 do yield [(row,0); (row,1); (row,2)]
+            // columns
+            for col in 0 .. 2 do yield [(0,col); (1,col); (2,col)]
+            // diagonals
+            yield [(0,0); (1,1); (2,2)]
+            yield [(0,2); (1,1); (2,0)]
         ]
 
     /// Determine if a line is a winning line.
-    let getLineWinner l =
-        match l.First, l.Second, l.Third with
-        | Full X, Full X, Full X -> XWins
-        | Full O, Full O, Full O -> OWins
-        | _ -> StillPlaying
-                    
+    let getLine (board: Board) line =
+        line |> List.map (fun p -> board.[p])
+
+    /// Determine if a line is a winning line.
+    let getLineWinner line =
+        if line |> List.forall (function Full X -> true | _ -> false) then Some X
+        elif line |> List.forall (function Full O -> true | _ -> false) then Some O
+        else None
+
     /// Determine the game result, if any.
-    let getGameResult m =
-        let winLines = getWinLines m.Board |> Seq.map getLineWinner
-
-        let xWins = winLines |> Seq.tryFind (fun r -> r = XWins)
-        match xWins with
-        | Some p -> p
+    let getGameResult model =
+        match lines |> Seq.tryPick (getLine model.Board >> getLineWinner) with
+        | Some p -> Win p
         | _ -> 
-
-        let oWins = winLines |> Seq.tryFind (fun r -> r = OWins)
-        match oWins with         
-        | Some p -> p 
-        | _ -> 
-
-        match anyMoreMoves m.Board with
-        | true -> StillPlaying
-        | false -> Draw
+           if anyMoreMoves model then StillPlaying
+           else Draw
 
     /// Get a message to show the current game result
     let getMessage model = 
         match getGameResult model with 
         | StillPlaying -> sprintf "%O's turn" model.NextUp
-        | XWins -> "X wins!"
-        | OWins -> "O Wins!"
+        | Win p -> sprintf "%O wins!" p
         | Draw -> "It is a draw!"
 
     /// The 'update' function to update the model
     let update gameOver msg model =
         let newModel = 
             match msg with
-            | PlayTL -> { model with Board = { model.Board with TopLeft = Full model.NextUp }; NextUp = model.NextUp.Swap }
-            | PlayTC -> { model with Board = { model.Board with TopCenter = Full model.NextUp }; NextUp = model.NextUp.Swap }
-            | PlayTR -> { model with Board = { model.Board with TopRight = Full model.NextUp }; NextUp = model.NextUp.Swap }
-            | PlayML -> { model with Board = { model.Board with MiddleLeft = Full model.NextUp }; NextUp = model.NextUp.Swap }
-            | PlayMC -> { model with Board = { model.Board with MiddleCenter = Full model.NextUp }; NextUp = model.NextUp.Swap }
-            | PlayMR -> { model with Board = { model.Board with MiddleRight = Full model.NextUp }; NextUp = model.NextUp.Swap }
-            | PlayBL -> { model with Board = { model.Board with BottomLeft = Full model.NextUp }; NextUp = model.NextUp.Swap }
-            | PlayBC -> { model with Board = { model.Board with BottomCenter = Full model.NextUp }; NextUp = model.NextUp.Swap }
-            | PlayBR -> { model with Board = { model.Board with BottomRight = Full model.NextUp }; NextUp = model.NextUp.Swap }
-            | Restart -> init()
+            | Play pos -> 
+                { model with Board = model.Board.Add(pos, Full model.NextUp)
+                             NextUp = model.NextUp.Swap }
+            | Restart -> 
+                init()
 
         // Make an announcement in the middle of the game. 
         let result = getGameResult newModel
-        if result <> StillPlaying then gameOver (getMessage newModel)
+        if result <> StillPlaying then 
+            gameOver (getMessage newModel)
 
         // Return the new model.
         newModel
@@ -162,48 +123,22 @@ module App =
         | X -> "Cross"
         | O -> "Nought"
 
+    /// A helper to get the suffix used in the Xaml for a position on the board.
+    let uiText (row,col) = sprintf "%d%d" row col
+
     /// A condition used in the 'view' function to check if we can play in a cell.
     /// The visual contents of a cell depends on this condition.
-    let canPlay model cell =
-         match cell with 
-         | Full _ -> false
-         | Empty -> 
-         match getGameResult model with
-         | StillPlaying -> true
-         | _ -> false
+    let canPlay model cell = (cell = Empty) && (getGameResult model = StillPlaying)
 
     /// The 'view' function giving the Xaml bindings from the model to the view
     let view () =
         TicTacToePage (), 
-        [ "TurnMessage" |> Binding.oneWay (fun m -> getMessage m)
-          "Restart" |> Binding.msg Restart
-          "PlayTL" |> Binding.msg PlayTL
-          "PlayTC" |> Binding.msg PlayTC
-          "PlayTR" |> Binding.msg PlayTR
-          "PlayML" |> Binding.msg PlayML
-          "PlayMC" |> Binding.msg PlayMC
-          "PlayMR" |> Binding.msg PlayMR
-          "PlayBL" |> Binding.msg PlayBL
-          "PlayBC" |> Binding.msg PlayBC
-          "PlayBR" |> Binding.msg PlayBR
-          "CanPlayTL" |> Binding.oneWay (fun m -> canPlay m m.Board.TopLeft )
-          "CanPlayTC" |> Binding.oneWay (fun m -> canPlay m m.Board.TopCenter )
-          "CanPlayTR" |> Binding.oneWay (fun m -> canPlay m m.Board.TopRight)
-          "CanPlayML" |> Binding.oneWay (fun m -> canPlay m m.Board.MiddleLeft )
-          "CanPlayMC" |> Binding.oneWay (fun m -> canPlay m m.Board.MiddleCenter )
-          "CanPlayMR" |> Binding.oneWay (fun m -> canPlay m m.Board.MiddleRight )
-          "CanPlayBL" |> Binding.oneWay (fun m -> canPlay m m.Board.BottomLeft )
-          "CanPlayBC" |> Binding.oneWay (fun m -> canPlay m m.Board.BottomCenter )
-          "CanPlayBR" |> Binding.oneWay (fun m -> canPlay m m.Board.BottomRight )
-          "ImageTL" |> Binding.oneWay (fun m -> match m.Board.TopLeft with Empty -> "" | Full p -> imageForPlayer p )
-          "ImageTC" |> Binding.oneWay (fun m -> match m.Board.TopCenter with Empty -> "" | Full p -> imageForPlayer p )
-          "ImageTR" |> Binding.oneWay (fun m -> match m.Board.TopRight with Empty -> "" | Full p -> imageForPlayer p )
-          "ImageML" |> Binding.oneWay (fun m -> match m.Board.MiddleLeft with Empty -> "" | Full p -> imageForPlayer p )
-          "ImageMC" |> Binding.oneWay (fun m -> match m.Board.MiddleCenter with Empty -> "" | Full p -> imageForPlayer p )
-          "ImageMR" |> Binding.oneWay (fun m -> match m.Board.MiddleRight with Empty -> "" | Full p -> imageForPlayer p )
-          "ImageBL" |> Binding.oneWay (fun m -> match m.Board.BottomLeft with Empty -> "" | Full p -> imageForPlayer p )
-          "ImageBC" |> Binding.oneWay (fun m -> match m.Board.BottomCenter with Empty -> "" | Full p -> imageForPlayer p )
-          "ImageBR" |> Binding.oneWay (fun m -> match m.Board.BottomRight with Empty -> "" | Full p -> imageForPlayer p )
+        [ yield "TurnMessage" |> Binding.oneWay (fun m -> getMessage m)
+          yield "Restart" |> Binding.msg Restart
+          for pos in positions do 
+              yield ("Play" + uiText pos) |> Binding.msg (Play pos)
+              yield ("CanPlay" + uiText pos) |> Binding.oneWay (fun m -> canPlay m m.Board.[pos] )
+              yield ("Image" + uiText pos) |> Binding.oneWay (fun m -> match m.Board.[pos] with | Empty -> "" | Full p -> imageForPlayer p )
         ]
 
 
