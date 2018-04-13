@@ -162,8 +162,8 @@ module App =
         | X -> "Cross"
         | O -> "Nought"
 
-    /// A condition used in the view function to checkif we can play in a cell.
-    /// The visual contents of the cell depend on this condition.
+    /// A condition used in the 'view' function to check if we can play in a cell.
+    /// The visual contents of a cell depends on this condition.
     let canPlay model cell =
          match cell with 
          | Full _ -> false
