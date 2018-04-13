@@ -114,6 +114,7 @@
         <Label Grid.Row="1"
                Text="{Binding Path=[TurnMessage]}" 
                Margin="10" 
+               TextColor="Black"
                HorizontalTextAlignment="Center" 
                FontSize="Large"/>
 

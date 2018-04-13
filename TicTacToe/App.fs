@@ -175,7 +175,7 @@ module App =
     /// The 'view' function giving the Xaml bindings from the model to the view
     let view () =
         TicTacToePage (), 
-        [ "TurnMessage" |> Binding.oneWay getMessage
+        [ "TurnMessage" |> Binding.oneWay (fun m -> getMessage m)
           "Restart" |> Binding.msg Restart
           "PlayTL" |> Binding.msg PlayTL
           "PlayTC" |> Binding.msg PlayTC
@@ -222,5 +222,5 @@ type App() =
         |> Program.withConsoleTrace
         |> Program.run
         
-    do base.MainPage <- new NavigationPage(page, BarBackgroundColor = Color.LightBlue)
+    do base.MainPage <- new NavigationPage(page, BarBackgroundColor = Color.LightBlue, BarTextColor = Color.Black)
 
